@@ -110,6 +110,7 @@ async function main() {
   const outDir = path.join("site", "data");
   fs.mkdirSync(outDir, { recursive: true });
   fs.copyFileSync("index.html", path.join("site", "index.html"));
+  if (fs.existsSync("logo.png")) fs.copyFileSync("logo.png", path.join("site", "logo.png"));
   const updatedAt = new Date().toISOString();
   let ok = 0;
 

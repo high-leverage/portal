@@ -40,7 +40,7 @@ th{color:var(--green-800);font-weight:700;font-size:12px;text-transform:uppercas
 .app-shell{display:flex;min-height:100vh;background:#f7f9f8}
 .sidebar{width:240px;flex-shrink:0;background:#fff;color:var(--kni-text);border-right:1px solid var(--kni-border);display:flex;flex-direction:column;padding:20px 14px}
 .sidebar-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;padding:0 8px 24px;color:var(--kni-text)}
-.sidebar-logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.sidebar-logo{width:44px;height:44px;object-fit:contain;flex-shrink:0;display:block}
 .sidebar-nav{display:flex;flex-direction:column;gap:4px}
 .sidebar-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--kni-muted);text-decoration:none}
 .sidebar-link.active{background:var(--green-50);color:#15803d;font-weight:700}
@@ -294,6 +294,12 @@ function initials(name) {
   if (w.length === 1) return w[0].slice(0, 2).toUpperCase();
   return (w[0][0] + w[w.length - 1][0]).toUpperCase();
 }
+// Tên hiển thị: bỏ "Anh/Chị/Bạn/Sếp", số "02"... (VD "Anh Thiện" -> "Thiện", "Huy 02" -> "Huy")
+function cleanName(n) {
+  let s = String(n || "").trim();
+  s = s.replace(/^\s*\d+\s*-\s*/, "").replace(/^(anh|chị|chi|bạn|ban|sếp|sep|em|cô|co|chú|chu)\s+/i, "").replace(/\s+\d+\s*$/, "").trim();
+  return s || String(n || "").trim() || "Quý khách";
+}
 function parseVN(str) {
   if (!str) return null;
   const p = String(str).trim().split("/").map((x) => parseInt(x, 10));
@@ -401,7 +407,7 @@ function shell(r, headerHtml, contentHtml) {
   const bottom = ROUTES.map((x) => `<a href="#/${x.path}" class="bottom-nav-item${x.path === r ? " active" : ""}"><span class="bottom-nav-icon">${x.icon}</span><span class="bottom-nav-label">${x.label}</span></a>`).join("");
   return `<div class="app-shell">
     <aside class="sidebar">
-      <div class="sidebar-brand"><span class="sidebar-logo">CK</span><span>Leverage</span></div>
+      <div class="sidebar-brand"><img class="sidebar-logo" src="logo.png" alt="Leverage"><span>Leverage</span></div>
       <nav class="sidebar-nav">${nav}</nav>
       <div class="sidebar-footer"><button class="btn-logout" data-act="logout">Đăng xuất</button></div>
     </aside>
@@ -437,12 +443,12 @@ function pageDashboard() {
   const gaugePos = ((Math.max(-100, Math.min(100, ratio)) + 100) / 200) * 100;
 
   const header = `<div class="main-header"><div>
-      <h1>Xin chào, <span class="accent-name">${esc(session.display)}</span> 👋</h1>
+      <h1>Xin chào, <span class="accent-name">${esc(cleanName(data.name))}</span> 👋</h1>
       <div class="sub desktop-only">Tổng quan tài khoản của bạn</div>
       <div class="sub mobile-only">Cập nhật ${esc(updated)}</div></div>
     <div class="header-right"><span class="badge-live desktop-only"><span class="badge-dot"></span> Dữ liệu Real Time</span>
       <span class="header-time desktop-only">Cập nhật: ${esc(updated)}</span>
-      <span class="avatar">${esc(initials(session.display))}</span></div></div>`;
+      <span class="avatar">${esc(initials(cleanName(data.name)))}</span></div></div>`;
 
   let c = "";
   if (rt) {
