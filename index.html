@@ -2,97 +2,264 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Leverage – Khách hàng</title>
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Leverage Portal">
+<title>Leverage - Tài Khoản Margin</title>
+<script>(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <style>
-:root{--g:#0a8f5a;--g2:#e8f6ef;--bg:#f4f7f6;--tx:#14201b;--mu:#6b7a73;--bd:#e1e8e4;--up:#0a8f5a;--dn:#d6374a}
+:root{--green-900:#14532d;--green-800:#166534;--green-700:#16a34a;--green-600:#22c55e;--green-50:#f0fdf4;--kni-border:#e9edeb;--kni-text:#111827;--kni-muted:#6b7280;--kni-neg:#dc2626}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+html,body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f7f9f8;color:var(--kni-text)}
+a{color:inherit}
+button{font-family:inherit}
 .hidden{display:none!important}
-.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:28px;width:100%;max-width:380px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
-.box h1{margin:0 0 4px;font-size:22px;color:var(--g)}
-.box p{margin:0 0 18px;color:var(--mu);font-size:14px}
-label{display:block;font-size:13px;color:var(--mu);margin:12px 0 4px}
-input{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;font-size:16px}
-button{cursor:pointer;font:inherit}
-.btn{width:100%;margin-top:18px;padding:12px;border:0;border-radius:10px;background:var(--g);color:#fff;font-weight:600;font-size:16px}
-.btn:disabled{opacity:.6}
-.err{color:var(--dn);font-size:14px;margin-top:12px;min-height:18px}
-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
-header b{color:var(--g)}
-header .sub{color:var(--mu);font-size:12px}
-.linkbtn{background:none;border:1px solid var(--bd);border-radius:8px;padding:6px 12px;color:var(--tx)}
-main{max-width:980px;margin:0 auto;padding:16px}
-.tabs{display:flex;gap:8px;margin-bottom:14px}
-.tab{padding:8px 16px;border-radius:999px;border:1px solid var(--bd);background:#fff;color:var(--mu)}
-.tab.on{background:var(--g);color:#fff;border-color:var(--g)}
-.hero{background:linear-gradient(135deg,#0a8f5a,#0b6e48);color:#fff;border-radius:16px;padding:20px}
-.hero .l{opacity:.85;font-size:13px}
-.hero .v{font-size:32px;font-weight:700;margin:4px 0 14px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.stat{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 12px}
-.stat .l{font-size:12px;opacity:.85}.stat .v{font-size:17px;font-weight:600;margin:2px 0 0}
-.card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;margin-top:14px}
-.card h2{margin:0 0 10px;font-size:16px}
-.grid2{display:grid;grid-template-columns:2fr 1fr;gap:14px}
-@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--kni-border);box-shadow:0 1px 2px rgba(16,24,40,.04);margin-bottom:20px}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.login-card{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:32px 28px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.login-title{font-size:20px;font-weight:700;margin-bottom:4px;text-align:center}
+.login-sub{font-size:13px;color:#666;text-align:center;margin-bottom:24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333}
+.field input{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:15px}
+.field input:focus{outline:none;border-color:var(--green-700)}
+.btn-primary{width:100%;padding:11px;background:var(--green-700);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer}
+.btn-primary:disabled{opacity:.6;cursor:default}
+.btn-logout{width:100%;padding:10px 14px;background:#fff;color:#333;border:1px solid #ddd;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+.error-msg{background:#fee2e2;color:#b91c1c;padding:10px 12px;border-radius:8px;font-size:13px;margin-bottom:16px}
+.positive{color:#16a34a}.negative{color:var(--kni-neg)}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th{font-size:12px;color:var(--mu);font-weight:600;text-align:right;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
-td{text-align:right;padding:9px 6px;border-bottom:1px solid #f0f4f2;white-space:nowrap}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid #eee}
 th:first-child,td:first-child{text-align:left}
-.up{color:var(--up)}.dn{color:var(--dn)}
-.tag{font-size:11px;background:#fde8ea;color:var(--dn);border-radius:6px;padding:1px 6px;margin-left:6px}
-.scroll{overflow-x:auto}
-.donut{width:170px;height:170px;border-radius:50%;margin:6px auto 12px}
-.leg{font-size:13px;display:flex;justify-content:space-between;padding:3px 0}
-.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
-.muted{color:var(--mu);font-size:13px}
+th{color:var(--green-800);font-weight:700;font-size:12px;text-transform:uppercase;background:var(--green-50)}
+.section-title{font-size:15px;font-weight:700;margin:0 0 12px;color:var(--green-900);border-left:3px solid var(--green-700);padding-left:8px}
+.muted{color:#888;font-size:13px}
+.app-shell{display:flex;min-height:100vh;background:#f7f9f8}
+.sidebar{width:240px;flex-shrink:0;background:#fff;color:var(--kni-text);border-right:1px solid var(--kni-border);display:flex;flex-direction:column;padding:20px 14px}
+.sidebar-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;padding:0 8px 24px;color:var(--kni-text)}
+.sidebar-logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.sidebar-nav{display:flex;flex-direction:column;gap:4px}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--kni-muted);text-decoration:none}
+.sidebar-link.active{background:var(--green-50);color:#15803d;font-weight:700}
+.sidebar-footer{margin-top:auto;padding-top:16px}
+.main-col{flex:1;min-width:0}
+.main-header{background:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--kni-border)}
+.main-header h1{font-size:18px;margin:0 0 2px}
+.main-header .sub{font-size:13px;color:#667}
+.header-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.badge-live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green-800);background:var(--green-50);padding:6px 12px;border-radius:999px;font-weight:600}
+.badge-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block}
+.header-time{font-size:12px;color:#888}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.main-content{padding:24px 28px 64px;max-width:1200px;animation:pageIn .22s ease-out}
+.main-content.noanim{animation:none}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:14px;padding:18px;border:1px solid var(--kni-border);box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.stat-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.stat-card-title{font-size:12px;color:#888;font-weight:600}
+.stat-card-value{font-size:20px;font-weight:800;margin:2px 0 4px}
+.stat-card-sub{font-size:12px;color:#999}
+.stat-card-delta{font-size:12px;font-weight:700}
+.gauge{margin-top:10px}
+.gauge-track{position:relative;height:6px;border-radius:999px;background:linear-gradient(90deg,#dc2626,#f59e0b,var(--green-600))}
+.gauge-marker{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--green-800);transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.gauge-labels{display:flex;justify-content:space-between;font-size:10px;color:#999;margin-top:4px}
+.dash-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.link-more{font-size:12px;color:var(--green-700);font-weight:600;text-decoration:none}
+.ticker-icon{width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #eee;display:inline-flex;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0;overflow:hidden;padding:3px;font-size:10px;font-weight:700;color:var(--green-800)}
+.ticker-icon img{width:100%;height:100%;object-fit:contain}
+.ticker-icon-fallback{background:var(--green-50);border:none}
+.holding-name-cell{display:flex;align-items:center}
+.donut-wrap{display:flex;align-items:center;gap:20px}
+.donut-chart-area{position:relative;width:180px;height:180px;flex-shrink:0}
+.donut-chart-area svg{width:180px;height:180px;display:block}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.donut-center-value{font-size:16px;font-weight:800;color:var(--green-900)}
+.donut-center-label{font-size:11px;color:#888}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:10px;min-width:0}
+.legend-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;gap:8px}
+.legend-left{display:flex;align-items:center;gap:8px;min-width:0}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.legend-name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend-right{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
+.legend-pct{font-size:13.5px;font-weight:700;color:var(--kni-text);font-variant-numeric:tabular-nums}
+.legend-value{font-size:11.5px;color:var(--kni-muted);font-variant-numeric:tabular-nums}
+.range-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.range-tab{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;background:#f2f5f3;color:#7c8681;border:none;cursor:pointer}
+.range-tab.active{background:#16a34a;color:#fff}
+.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.chart-head-left{display:flex;align-items:center;gap:8px}
+.chart-chip{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.chart-chip.up{background:#e8f7ee;color:#15803d}
+.chart-chip.down{background:#fdeeee;color:var(--kni-neg)}
+.chart-box{position:relative;width:100%;height:240px}
+.chart-box svg{display:block}
+.chart-tip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--kni-border);border-radius:10px;padding:8px 12px;box-shadow:0 6px 20px rgba(16,24,40,.1);white-space:nowrap;z-index:3}
+.chart-tip-label{font-size:11px;color:var(--kni-muted);margin-bottom:2px}
+.chart-tip-value{font-size:14px;font-weight:700;color:var(--kni-text);font-variant-numeric:tabular-nums}
+.history-toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.history-search{flex:1;min-width:200px;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px}
+.history-search:focus{outline:none;border-color:var(--green-700)}
+.history-filter{padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;background:#fff;color:#333}
+.history-date-label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#666}
+.badge-holding{display:inline-block;background:var(--green-50);color:var(--green-800);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.badge-sold{display:inline-block;background:#f2f7f4;color:#888;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.settings-section{margin-bottom:24px}
+.settings-section-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.settings-section-sub{font-size:12px;color:#888;margin-bottom:12px}
+.settings-options{display:flex;gap:10px;margin-top:12px}
+.theme-option-btn{flex:1;padding:14px;border-radius:10px;border:2px solid #eee;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:#333;text-align:center}
+.theme-option-btn.active{border-color:var(--green-700);color:var(--green-700);background:var(--green-50)}
+.bottom-nav{display:none}
+.hero-card,.portfolio-summary,.holdings-list,.stat-card-value,table{font-variant-numeric:tabular-nums}
+.hero-card{background:#fff;color:var(--kni-text);border:1px solid var(--kni-border);border-radius:18px;padding:22px 20px 18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.hero-label{font-size:13px;font-weight:600;color:var(--kni-muted);letter-spacing:.02em}
+.hero-value{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:4px 0 8px;color:var(--kni-text)}
+.hero-delta{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:999px}
+.hero-delta.up{background:#e8f7ee;color:#15803d}
+.hero-delta.down{background:#fdeeee;color:var(--kni-neg)}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #f1f4f2}
+.hero-stat{display:flex;flex-direction:column;gap:3px;min-width:0}
+.hero-stat-label{font-size:11.5px;font-weight:600;color:var(--kni-muted)}
+.hero-stat-value{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--kni-text)}
+.hero-stat-sub{font-size:11px;font-weight:600}
+.hero-stat-sub.pos{color:#16a34a}.hero-stat-sub.neg{color:var(--kni-neg)}
+.hero-gauge{position:relative;display:block;height:4px;border-radius:4px;margin-top:6px;background:linear-gradient(90deg,#f87171,#fbbf24,#4ade80);opacity:.9}
+.hero-gauge-marker{position:absolute;top:-3px;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid #16a34a;transform:translateX(-50%)}
+.portfolio-summary{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;background:#f6f9f7;border-radius:12px;padding:10px 14px;margin:4px 0 12px}
+.portfolio-summary-item{display:flex;flex-direction:column;gap:2px}
+.portfolio-summary-item.right{text-align:right}
+.portfolio-summary-label{font-size:11.5px;font-weight:600;color:#6b7671}
+.portfolio-summary-value{font-size:14.5px;font-weight:700}
+.holdings-list{display:none}
+.holdings-table{display:table}
+.accent-name{color:#16a34a}
+.head-sort{display:flex;align-items:center;gap:3px;background:none;border:none;padding:2px 0;font:inherit;font-size:11px;font-weight:600;color:#8a948f;cursor:pointer}
+.head-sort.active{color:#16a34a}
+.head-sort-arrow{font-size:10px;line-height:1;min-width:9px;display:inline-block}
+.holding-row-head .holding-col-mid .head-sort,.holding-row-head .holding-col-right .head-sort{margin-left:auto}
+.holdings-table th .head-sort{font-size:inherit;color:inherit;margin:0 auto}
+.holdings-table th:first-child .head-sort{margin:0}
+.holdings-table th .head-sort.active{color:#16a34a}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-left:6px;vertical-align:middle;animation:livePulse 1.6s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (min-width:861px){.mobile-only{display:none!important}}
+@media (max-width:860px){
+.desktop-only{display:none!important}
+.app-shell{flex-direction:column}
+.sidebar{display:none}
+.dash-grid{grid-template-columns:1fr}
+.donut-wrap{flex-direction:column}
+.hero-value{font-size:30px}
+.hero-stats{grid-template-columns:1fr 1fr}
+.hero-stat:last-child{grid-column:1/-1}
+.main-col{padding-bottom:calc(62px + env(safe-area-inset-bottom)*.5)}
+.main-header{padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
+.main-content{padding-left:14px;padding-right:14px}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:space-around;align-items:stretch;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid rgba(0,0,0,.07);padding:4px 4px calc(3px + env(safe-area-inset-bottom)*.5);user-select:none;-webkit-user-select:none}
+.bottom-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0 3px;border-radius:12px;color:#8a948f;text-decoration:none;transition:transform .12s ease,color .15s ease}
+.bottom-nav-item:active{transform:scale(.9)}
+.bottom-nav-item.active{color:#16a34a}
+.bottom-nav-icon{width:24px;height:24px;display:inline-flex}
+.bottom-nav-icon svg{width:100%;height:100%}
+.bottom-nav-label{font-size:10.5px;font-weight:600;letter-spacing:.01em}
+.holdings-table{display:none}
+.holdings-list{display:block}
+.holding-row{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;align-items:center;gap:8px;padding:12px 2px;border-bottom:1px solid rgba(0,0,0,.06)}
+.holding-row:last-child{border-bottom:none}
+.holding-row-head{padding:6px 2px;font-size:11px;font-weight:600;color:#8a948f;line-height:1.5;border-bottom:1px solid rgba(0,0,0,.06)}
+.holding-col-mid,.holding-col-right{text-align:right}
+.holding-code-line{display:flex;align-items:center}
+.holding-code{font-size:15px;font-weight:800;letter-spacing:.01em}
+.holding-main{font-size:14.5px;font-weight:700}
+.holding-sub{font-size:12.5px;color:#8a948f;margin-top:2px}
+.holding-sub-strong{font-size:13px;font-weight:700;margin-top:2px}
+.history-wrap{overflow-x:auto}
+}
+[data-theme="dark"] body{background:#0f1512;color:#e5e7eb}
+[data-theme="dark"] .app-shell{background:#0f1512}
+[data-theme="dark"] .card,[data-theme="dark"] .main-header,[data-theme="dark"] .stat-card{background:#1a2420;border-color:#263129;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+[data-theme="dark"] .login-card{background:#1a2420;color:#e5e7eb}
+[data-theme="dark"] .login-sub,[data-theme="dark"] .field label{color:#9ca3af}
+[data-theme="dark"] .field input{background:#16211c;border-color:#2a352e;color:#e5e7eb}
+[data-theme="dark"] table{color:#e5e7eb}
+[data-theme="dark"] th{background:#16211c;color:#7fdca0}
+[data-theme="dark"] th,[data-theme="dark"] td{border-bottom:1px solid #263129}
+[data-theme="dark"] .muted{color:#9ca3af}
+[data-theme="dark"] .section-title{color:#d1fae5}
+[data-theme="dark"] .history-search,[data-theme="dark"] .history-filter{background:#16211c;border-color:#2a352e;color:#e5e7eb}
+[data-theme="dark"] .history-date-label{color:#9ca3af}
+[data-theme="dark"] .stat-card-title,[data-theme="dark"] .stat-card-sub,[data-theme="dark"] .header-time,[data-theme="dark"] .main-header .sub,[data-theme="dark"] .settings-section-sub{color:#9ca3af}
+[data-theme="dark"] .badge-live{background:#16211c;color:#7fdca0}
+[data-theme="dark"] .error-msg{background:#3a1414;color:#fca5a5}
+[data-theme="dark"] .badge-holding{background:#16211c;color:#7fdca0}
+[data-theme="dark"] .badge-sold{background:#1a2420;color:#9ca3af}
+[data-theme="dark"] .theme-option-btn{background:#16211c;border-color:#2a352e;color:#e5e7eb}
+[data-theme="dark"] .theme-option-btn.active{border-color:var(--green-600);color:#7fdca0;background:#16211c}
+[data-theme="dark"] .range-tab{background:#16211c;color:#8b948f}
+[data-theme="dark"] .range-tab.active{background:#16a34a;color:#fff}
+[data-theme="dark"] .bottom-nav{background:rgba(20,28,24,.92);border-top-color:#263129}
+[data-theme="dark"] .bottom-nav-item{color:#6b7671}
+[data-theme="dark"] .bottom-nav-item.active{color:#7fdca0}
+[data-theme="dark"] .hero-card{background:#1a2420;border-color:#263129;color:#e5e7eb;box-shadow:none}
+[data-theme="dark"] .hero-value,[data-theme="dark"] .hero-stat-value{color:#e5e7eb}
+[data-theme="dark"] .hero-stats{border-top-color:#263129}
+[data-theme="dark"] .hero-delta.up,[data-theme="dark"] .chart-chip.up{background:rgba(34,197,94,.15);color:#4ade80}
+[data-theme="dark"] .hero-delta.down,[data-theme="dark"] .chart-chip.down{background:rgba(220,38,38,.18);color:#f87171}
+[data-theme="dark"] .sidebar{background:#141c18;border-right-color:#263129;color:#e5e7eb}
+[data-theme="dark"] .sidebar-brand{color:#e5e7eb}
+[data-theme="dark"] .sidebar-link{color:#8b948f}
+[data-theme="dark"] .sidebar-link.active{background:rgba(34,197,94,.12);color:#4ade80}
+[data-theme="dark"] .portfolio-summary{background:#16211c}
+[data-theme="dark"] .portfolio-summary-label,[data-theme="dark"] .holding-sub,[data-theme="dark"] .holding-row-head{color:#6b7671}
+[data-theme="dark"] .holding-row,[data-theme="dark"] .holding-row-head{border-bottom-color:#263129}
+[data-theme="dark"] .chart-tip{background:#1a2420;border-color:#263129}
+[data-theme="dark"] .chart-tip-value,[data-theme="dark"] .legend-pct{color:#e5e7eb}
+[data-theme="dark"] .donut-center-value{color:#d1fae5}
+[data-theme="dark"] .accent-name{color:#4ade80}
+[data-theme="dark"] .head-sort.active,[data-theme="dark"] .holdings-table th .head-sort.active{color:#4ade80}
+[data-theme="dark"] .btn-logout{background:#16211c;border-color:#2a352e;color:#e5e7eb}
+[data-theme="dark"] .ticker-icon{background:#16211c;border-color:#263129}
+[data-theme="dark"] .ticker-icon-fallback{background:#16211c}
 </style>
 </head>
 <body>
 
-<div id="login" class="login">
-  <form class="box" id="form" autocomplete="on">
-    <h1>Leverage</h1>
-    <p>Đăng nhập để xem tài khoản của bạn</p>
-    <label for="u">Tên đăng nhập</label>
-    <input id="u" name="username" autocomplete="username" autocapitalize="none" required>
-    <label for="p">Mật khẩu</label>
-    <input id="p" name="password" type="password" autocomplete="current-password" required>
-    <button class="btn" id="go" type="submit">Đăng nhập</button>
-    <div class="err" id="err"></div>
-  </form>
+<div id="login" class="login-wrap">
+  <div class="login-card">
+    <div class="login-title">Leverage</div>
+    <div class="login-sub">Đăng nhập để xem tài khoản margin của bạn</div>
+    <div class="error-msg hidden" id="err"></div>
+    <form id="form" autocomplete="on">
+      <div class="field"><label for="u">Tên đăng nhập</label><input id="u" name="username" type="text" autocomplete="username" autocapitalize="none" required></div>
+      <div class="field"><label for="p">Mật khẩu</label><input id="p" name="password" type="password" autocomplete="current-password" required></div>
+      <button class="btn-primary" id="go" type="submit">Đăng nhập</button>
+    </form>
+  </div>
 </div>
 
-<div id="app" class="hidden">
-  <header>
-    <div><b>Leverage</b> <span id="who"></span><div class="sub" id="upd"></div></div>
-    <button class="linkbtn" id="out">Đăng xuất</button>
-  </header>
-  <main>
-    <div class="tabs">
-      <button class="tab on" data-t="ov">Tổng quan</button>
-      <button class="tab" data-t="od">Lịch sử giao dịch</button>
-    </div>
-    <div id="ov"></div>
-    <div id="od" class="hidden"></div>
-  </main>
-</div>
+<div id="app" class="hidden"></div>
 
 <script>
-const SITE_SALT = "kafi-portal-v1"; // phải giống scripts/build-data.mjs
+const SITE_SALT = "kafi-portal-v1"; // phải giống build-data.mjs
 const ITERATIONS = 310000;
 const REFRESH_MS = 120000;
+const VPS_SNAPSHOT = "https://bgapidatafeed.vps.com.vn/getliststockdata";
+const DCHART = "https://dchart-api.vndirect.com.vn/dchart/history";
+
 const enc = new TextEncoder(), dec = new TextDecoder();
 const $ = (id) => document.getElementById(id);
-let session = null, timer = null, tab = "ov", data = null;
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+// ---------- Mã hóa / giải mã ----------
 const toHex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 async function sha256(t) { return new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode(t))); }
-
 async function fileName(user) { return toHex(await sha256(`${SITE_SALT}:file:${user}`)).slice(0, 32); }
 async function deriveKey(user, pass) {
   const salt = await sha256(`${SITE_SALT}:salt:${user}`);
@@ -108,131 +275,491 @@ async function load(file, key) {
   return JSON.parse(dec.decode(pt));
 }
 
-const vnd = (v) => new Intl.NumberFormat("vi-VN").format(Math.round(v || 0)) + " đ";
-const price = (v) => new Intl.NumberFormat("vi-VN").format(Math.round((v || 0) * 1000)) + " đ";
-const pct = (v) => (v >= 0 ? "+" : "") + (v || 0).toFixed(2) + "%";
-const cls = (v) => (v >= 0 ? "up" : "dn");
-const num = (v) => new Intl.NumberFormat("vi-VN").format(v || 0);
-
-function render() {
-  if (!data) return;
-  $("who").textContent = "· " + data.name;
-  $("upd").textContent = "Cập nhật " + new Date(data.updatedAt).toLocaleString("vi-VN");
-  renderOverview(); renderOrders();
+// ---------- Định dạng ----------
+const nf = new Intl.NumberFormat("vi-VN");
+const formatVND = (v) => nf.format(Math.round(v || 0)) + " đ";
+const formatPrice = (v) => nf.format(Math.round((v || 0) * 1000)) + " đ";
+const formatPct = (v) => `${(v || 0).toFixed(2)}%`;
+const pnlClass = (v) => (v >= 0 ? "positive" : "negative");
+function formatCompact(value) {
+  const v = Math.abs(value);
+  if (v >= 1e9) return (value / 1e9).toFixed(1).replace(".", ",") + " tỷ";
+  if (v >= 1e6) return Math.round(value / 1e6) + " tr";
+  if (v >= 1e3) return Math.round(value / 1e3) + " k";
+  return String(Math.round(value));
+}
+function initials(name) {
+  const w = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if (!w.length) return "KH";
+  if (w.length === 1) return w[0].slice(0, 2).toUpperCase();
+  return (w[0][0] + w[w.length - 1][0]).toUpperCase();
+}
+function parseVN(str) {
+  if (!str) return null;
+  const p = String(str).trim().split("/").map((x) => parseInt(x, 10));
+  if (p.length !== 3 || !p[0] || !p[1] || !p[2]) return null;
+  return new Date(Date.UTC(p[2], p[1] - 1, p[0]));
+}
+function fmtUpdated(iso) {
+  return new Date(iso).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-function renderOverview() {
-  const rt = data.realtime;
-  const h = data.holdings || [];
-  const totMkt = h.reduce((s, x) => s + x.marketPrice * 1000 * x.volume, 0);
-  const totPnl = h.reduce((s, x) => s + x.pnl, 0);
-  const totCost = totMkt - totPnl;
-  const totPct = totCost ? (totPnl / Math.abs(totCost)) * 100 : 0;
-  let html = "";
-  if (rt) {
-    html += `<section class="hero"><div class="l">Tài sản ròng (NAV)</div><div class="v">${vnd(rt.nav)}</div>
-    <div class="stats">
-      <div class="stat"><div class="l">Giá trị danh mục</div><div class="v">${vnd(rt.portfolioValue)}</div></div>
-      <div class="stat"><div class="l">Dư nợ</div><div class="v">${vnd(rt.debt)}</div></div>
-      <div class="stat"><div class="l">Tỷ lệ ký quỹ</div><div class="v">${(rt.marginRatio || 0).toFixed(2)}%</div></div>
-      <div class="stat"><div class="l">Vốn nộp</div><div class="v">${vnd(data.totalCapital)}</div></div>
-    </div></section>`;
-  } else html += `<div class="card muted">Không tìm thấy dữ liệu NAV cho tài khoản này.</div>`;
+// ---------- Trạng thái ----------
+let session = null, data = null, timer = null, priceTimer = null;
+let livePrices = {};
+let sortKey = "pnl", sortDir = -1;
+let navRange = "1m";
+let oh = { search: "", status: "all", from: "", to: "", key: null, dir: "asc" };
 
-  html += `<div class="grid2"><div class="card"><h2>Danh mục đang nắm giữ</h2>`;
-  if (!h.length) html += `<div class="muted">Chưa có cổ phiếu.</div>`;
-  else {
-    const rows = [...h].sort((a, b) => b.marketPrice * b.volume - a.marketPrice * a.volume);
-    html += `<div class="scroll"><table><thead><tr><th>Mã</th><th>Giá vốn</th><th>Giá TT</th><th>KL</th><th>Lãi/lỗ</th><th>%</th></tr></thead><tbody>` +
-      rows.map((x) => `<tr><td><b>${x.code}</b>${x.short ? '<span class="tag">Short</span>' : ""}</td><td>${price(x.buyPrice)}</td><td>${price(x.marketPrice)}</td><td>${num(x.volume)}</td><td class="${cls(x.pnl)}">${vnd(x.pnl)}</td><td class="${cls(x.pnlPct)}">${pct(x.pnlPct)}</td></tr>`).join("") +
-      `<tr><td><b>Tổng</b></td><td></td><td>${vnd(totMkt)}</td><td></td><td class="${cls(totPnl)}"><b>${vnd(totPnl)}</b></td><td class="${cls(totPct)}"><b>${pct(totPct)}</b></td></tr></tbody></table></div>`;
-  }
-  html += `</div><div class="card"><h2>Cơ cấu danh mục</h2>${donut(h, totMkt)}</div></div>`;
-  html += `<div class="card"><h2>Diễn biến NAV</h2>${navChart(data.history || [])}</div>`;
-  $("ov").innerHTML = html;
-}
+const DIVIDEND_EVENTS = [
+  { code: "VPB", type: "Tiền mặt", ratio: "5% (500đ/CP)", exDate: "2026-05-15", payDate: "2026-05-25" },
+  { code: "HPG", type: "Tiền mặt", ratio: "5% (500đ/CP)", exDate: "2026-05-11", payDate: "2026-06-03" },
+  { code: "HPG", type: "Cổ phiếu", ratio: "10% (100:10)", exDate: "2026-05-25", payDate: null },
+  { code: "TCB", type: "Tiền mặt", ratio: "7% (700đ/CP)", exDate: "2026-05-19", payDate: "2026-06-10" },
+  { code: "MBB", type: "Tiền mặt", ratio: "10% (1.000đ/CP)", exDate: "2026-07-09", payDate: "2026-07-17" },
+  { code: "ACB", type: "Tiền mặt", ratio: "7% (700đ/CP)", exDate: "2026-06-15", payDate: "2026-06-23" },
+  { code: "VIB", type: "Tiền mặt", ratio: "9% (900đ/CP)", exDate: "2026-04-29", payDate: "2026-06-03" },
+  { code: "LPB", type: "Tiền mặt", ratio: "30% (3.000đ/CP)", exDate: "2026-05-14", payDate: "2026-05-25" },
+  { code: "VNM", type: "Tiền mặt (đợt 2/2025)", ratio: "18,5% (1.850đ/CP)", exDate: "2026-06-26", payDate: "2026-07-17" },
+  { code: "REE", type: "Cổ phiếu", ratio: "15% (100:15)", exDate: "2026-05-18", payDate: null },
+  { code: "DGW", type: "Tiền mặt", ratio: "10% (1.000đ/CP)", exDate: "2026-05-13", payDate: "2026-05-21" },
+  { code: "VHM", type: "Tiền mặt", ratio: "60% (6.000đ/CP)", exDate: "2026-06-29", payDate: "2026-07-22" },
+  { code: "VHM", type: "Cổ phiếu", ratio: "100% (1:1)", exDate: "2026-06-29", payDate: null },
+  { code: "HDG", type: "Tiền mặt (đợt 1/2025)", ratio: "5% (500đ/CP)", exDate: "2026-03-13", payDate: "2026-03-25" },
+  { code: "HDG", type: "Cổ phiếu (đợt 2/2025)", ratio: "10% (10:1)", exDate: "2026-06-09", payDate: null },
+  { code: "CTR", type: "Tiền mặt", ratio: "15% (1.500đ/CP)", exDate: "2026-07-10", payDate: "2026-07-30" },
+  { code: "CTR", type: "Cổ phiếu", ratio: "12% (100:12)", exDate: "2026-07-10", payDate: null },
+  { code: "HHV", type: "Cổ phiếu", ratio: "~5% (20:1)", exDate: "2026-07-09", payDate: null },
+  { code: "SAB", type: "Tiền mặt (đợt 1/2026)", ratio: "20% (2.000đ/CP)", exDate: "2026-01-12", payDate: "2026-02-12" },
+  { code: "SAB", type: "Tiền mặt (đợt 2/2025)", ratio: "30% (3.000đ/CP)", exDate: "2026-07-28", payDate: "2026-08-28" },
+  { code: "DGC", type: "Tiền mặt", ratio: "30% (3.000đ/CP)", exDate: "2026-01-15", payDate: "2026-01-15" },
+];
 
-const COLORS = ["#0a8f5a", "#2fb27f", "#7fd1ac", "#0b6e48", "#f2b134", "#5b8def", "#9b6bd6", "#d6374a"];
-function donut(h, tot) {
-  if (!h.length || !tot) return `<div class="muted">Chưa có dữ liệu.</div>`;
-  let acc = 0, stops = [], leg = "";
-  [...h].sort((a, b) => b.marketPrice * b.volume - a.marketPrice * a.volume).forEach((x, i) => {
-    const w = (x.marketPrice * 1000 * x.volume) / tot * 100, c = COLORS[i % COLORS.length];
-    stops.push(`${c} ${acc}% ${acc + w}%`); acc += w;
-    leg += `<div class="leg"><span><i style="background:${c}"></i>${x.code}</span><span>${w.toFixed(1)}%</span></div>`;
+const ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  bars: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>',
+  cog: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.56-1.11 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.01A1.7 1.7 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.01c.26.63.87 1.04 1.56 1.04H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.56 1.03Z"/></svg>',
+};
+const ROUTES = [
+  { path: "", label: "Tổng quan", full: "Tổng quan", icon: ICONS.home },
+  { path: "history", label: "Lịch sử", full: "Lịch sử giao dịch", icon: ICONS.clock },
+  { path: "reports", label: "Báo cáo", full: "Báo cáo", icon: ICONS.bars },
+  { path: "settings", label: "Cài đặt", full: "Cài đặt", icon: ICONS.cog },
+];
+const route = () => (location.hash || "#/").replace(/^#\/?/, "");
+
+// ---------- Dữ liệu danh mục (áp giá live) ----------
+function holdingRows() {
+  const h = (data && data.holdings) || [];
+  return h.map((x) => {
+    const lp = livePrices[String(x.code).toUpperCase()];
+    if (!lp || !(x.buyPrice > 0) || !(x.volume > 0)) return { ...x, live: false };
+    const pnl = x.short ? (x.buyPrice - lp) * 1000 * x.volume : (lp - x.buyPrice) * 1000 * x.volume;
+    const pnlPct = x.short ? (lp ? ((x.buyPrice - lp) / lp) * 100 : x.pnlPct) : ((lp - x.buyPrice) / x.buyPrice) * 100;
+    return { ...x, marketPrice: lp, pnl, pnlPct, live: true };
   });
-  return `<div class="donut" style="background:conic-gradient(${stops.join(",")})"></div>${leg}`;
 }
 
-function navChart(hist) {
-  const pts = hist.slice(-120);
-  if (pts.length < 2) return `<div class="muted">Chưa đủ dữ liệu lịch sử.</div>`;
-  const W = 640, H = 200, P = 8;
-  const ys = pts.map((p) => p.nav), min = Math.min(...ys), max = Math.max(...ys), span = max - min || 1;
-  const xy = pts.map((p, i) => [P + (i / (pts.length - 1)) * (W - 2 * P), H - P - ((p.nav - min) / span) * (H - 2 * P)]);
-  const line = xy.map((p) => p.join(",")).join(" ");
-  const area = `${P},${H - P} ${line} ${W - P},${H - P}`;
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img"><polygon points="${area}" fill="#0a8f5a22"/><polyline points="${line}" fill="none" stroke="#0a8f5a" stroke-width="2"/></svg>
-  <div class="leg"><span class="muted">${pts[0].d}: ${vnd(pts[0].nav)}</span><span class="muted">${pts[pts.length - 1].d}: ${vnd(pts[pts.length - 1].nav)}</span></div>`;
+async function loadPrices() {
+  if (!data) return;
+  const hs = data.holdings || [];
+  if (!hs.length) return;
+  const m = {};
+  try {
+    const codes = hs.map((h) => String(h.code).toUpperCase()).join(",");
+    const res = await fetch(`${VPS_SNAPSHOT}/${encodeURIComponent(codes)}`);
+    if (res.ok) {
+      const arr = await res.json();
+      (Array.isArray(arr) ? arr : []).forEach((x) => {
+        const p = Number(x && x.lastPrice) || Number(x && x.r) || 0;
+        if (x && x.sym && p > 0) m[String(x.sym).toUpperCase()] = p;
+      });
+    }
+  } catch (e) { /* thử nguồn 2 */ }
+  const missing = hs.filter((h) => !m[String(h.code).toUpperCase()]);
+  if (missing.length) {
+    const now = Math.floor(Date.now() / 1000), from = now - 86400 * 7;
+    await Promise.all(missing.map(async (h) => {
+      try {
+        const res = await fetch(`${DCHART}?symbol=${encodeURIComponent(h.code)}&resolution=D&from=${from}&to=${now + 86400}`);
+        if (!res.ok) return;
+        const j = await res.json();
+        if (j && Array.isArray(j.c) && j.c.length) {
+          const p = Number(j.c[j.c.length - 1]);
+          if (p > 0) m[String(h.code).toUpperCase()] = p;
+        }
+      } catch (e) { /* giữ giá sheet */ }
+    }));
+  }
+  if (JSON.stringify(m) !== JSON.stringify(livePrices)) { livePrices = m; if (route() === "") render(true); }
 }
 
-function renderOrders() {
-  const o = data.orders || [];
-  if (!o.length) { $("od").innerHTML = `<div class="card muted">Chưa có giao dịch.</div>`; return; }
-  $("od").innerHTML = `<div class="card"><h2>Lịch sử giao dịch (${o.length})</h2><div class="scroll"><table><thead><tr><th>Mã</th><th>Ngày mua</th><th>Giá mua</th><th>KL</th><th>Tổng mua</th><th>Ngày bán</th><th>Giá bán</th><th>Lãi/lỗ</th><th>Trạng thái</th></tr></thead><tbody>` +
-    o.map((x) => `<tr><td><b>${x.code}</b></td><td>${x.buyDate}</td><td>${num(x.buyPrice)}</td><td>${num(x.volume)}</td><td>${num(x.totalBuy)}</td><td>${x.sellDate || "–"}</td><td>${x.hasSold ? num(x.sellPrice) : "–"}</td><td class="${cls(x.finalPnl)}">${num(x.finalPnl)}</td><td>${x.status}</td></tr>`).join("") +
-    `</tbody></table></div></div>`;
+// ---------- Khung trang ----------
+function shell(r, headerHtml, contentHtml) {
+  const nav = ROUTES.map((x) => `<a href="#/${x.path}" class="sidebar-link${x.path === r ? " active" : ""}">${x.full}</a>`).join("");
+  const bottom = ROUTES.map((x) => `<a href="#/${x.path}" class="bottom-nav-item${x.path === r ? " active" : ""}"><span class="bottom-nav-icon">${x.icon}</span><span class="bottom-nav-label">${x.label}</span></a>`).join("");
+  return `<div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><span class="sidebar-logo">CK</span><span>Leverage</span></div>
+      <nav class="sidebar-nav">${nav}</nav>
+      <div class="sidebar-footer"><button class="btn-logout" data-act="logout">Đăng xuất</button></div>
+    </aside>
+    <div class="main-col">
+      ${headerHtml}
+      <div class="main-content" id="mc">${contentHtml}</div>
+    </div>
+    <nav class="bottom-nav" aria-label="Điều hướng chính">${bottom}</nav>
+  </div>`;
 }
+function plainHeader(title, sub, updated) {
+  return `<div class="main-header"><div><h1>${title}</h1><div class="sub">${sub}</div></div>
+    <div class="header-right"><span class="badge-live"><span class="badge-dot"></span> Dữ liệu Real Time</span>
+    <span class="header-time">Cập nhật: ${esc(updated)}</span></div></div>`;
+}
+function tickerLogo(code) {
+  const abbr = esc(String(code || "").slice(0, 2).toUpperCase());
+  return `<span class="ticker-icon"><img src="https://cdn.simplize.vn/simplizevn/logo/${encodeURIComponent(code)}.jpeg" alt="${esc(code)}" onerror="this.parentNode.className='ticker-icon ticker-icon-fallback';this.parentNode.textContent='${abbr}'"></span>`;
+}
+
+// ---------- Tổng quan ----------
+function pageDashboard() {
+  const rt = data.realtime, hist = data.history || [];
+  const updated = fmtUpdated(data.updatedAt);
+  const last = hist[hist.length - 1] || null, prev = hist.length > 1 ? hist[hist.length - 2] : null;
+  const today0 = new Date(); today0.setHours(0, 0, 0, 0);
+  let prior = null;
+  for (let i = hist.length - 1; i >= 0; i--) { if (hist[i].t < today0.getTime()) { prior = hist[i]; break; } }
+  const navDelta = rt && prior ? rt.nav - prior.nav : null;
+  const navDeltaPct = navDelta !== null && prior && prior.nav ? (navDelta / Math.abs(prior.nav)) * 100 : null;
+  const debtDeltaPct = last && prev && prev.debt ? ((last.debt - prev.debt) / Math.abs(prev.debt)) * 100 : null;
+  const ratio = rt ? rt.marginRatio : 0;
+  const gaugePos = ((Math.max(-100, Math.min(100, ratio)) + 100) / 200) * 100;
+
+  const header = `<div class="main-header"><div>
+      <h1>Xin chào, <span class="accent-name">${esc(session.display)}</span> 👋</h1>
+      <div class="sub desktop-only">Tổng quan tài khoản của bạn</div>
+      <div class="sub mobile-only">Cập nhật ${esc(updated)}</div></div>
+    <div class="header-right"><span class="badge-live desktop-only"><span class="badge-dot"></span> Dữ liệu Real Time</span>
+      <span class="header-time desktop-only">Cập nhật: ${esc(updated)}</span>
+      <span class="avatar">${esc(initials(session.display))}</span></div></div>`;
+
+  let c = "";
+  if (rt) {
+    const dTxt = navDelta !== null ? `${navDelta >= 0 ? "▲" : "▼"} ${formatVND(Math.abs(navDelta))}${navDeltaPct !== null ? ` (${navDeltaPct.toFixed(2)}%)` : ""} hôm nay` : "";
+    c += `<section class="hero-card mobile-only">
+      <div class="hero-label">Tài sản ròng (NAV)</div>
+      <div class="hero-value">${formatVND(rt.nav)}</div>
+      ${navDelta !== null ? `<span class="hero-delta ${navDelta >= 0 ? "up" : "down"}">${dTxt}</span>` : ""}
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-label">Giá trị danh mục</span><span class="hero-stat-value">${formatVND(rt.portfolioValue)}</span></div>
+        <div class="hero-stat"><span class="hero-stat-label">Dư nợ</span><span class="hero-stat-value">${formatVND(rt.debt)}</span>
+          ${debtDeltaPct !== null ? `<span class="hero-stat-sub ${debtDeltaPct >= 0 ? "neg" : "pos"}">${debtDeltaPct >= 0 ? "▲" : "▼"} ${Math.abs(debtDeltaPct).toFixed(2)}% hôm qua</span>` : ""}</div>
+        <div class="hero-stat"><span class="hero-stat-label">Tỷ lệ ký quỹ</span><span class="hero-stat-value">${formatPct(rt.marginRatio)}</span>
+          <span class="hero-gauge"><span class="hero-gauge-marker" style="left:${gaugePos}%"></span></span></div>
+      </div></section>
+    <div class="stat-cards desktop-only">
+      <div class="stat-card"><div class="stat-card-top"><div><div class="stat-card-title">NAV (Tài sản ròng)</div><div class="stat-card-value">${formatVND(rt.nav)}</div><div class="stat-card-sub">Tài sản ròng của bạn</div></div></div>
+        ${navDelta !== null ? `<div class="stat-card-delta ${pnlClass(navDelta)}">${dTxt}</div>` : ""}</div>
+      <div class="stat-card"><div class="stat-card-top"><div><div class="stat-card-title">Giá trị danh mục</div><div class="stat-card-value">${formatVND(rt.portfolioValue)}</div></div></div></div>
+      <div class="stat-card"><div class="stat-card-top"><div><div class="stat-card-title">Dư nợ</div><div class="stat-card-value">${formatVND(rt.debt)}</div></div></div>
+        ${debtDeltaPct !== null ? `<div class="stat-card-delta ${pnlClass(debtDeltaPct)}">${debtDeltaPct >= 0 ? "▲" : "▼"} ${Math.abs(debtDeltaPct).toFixed(2)}% so với hôm qua</div>` : `<div class="stat-card-sub">Chưa đủ dữ liệu so sánh</div>`}</div>
+      <div class="stat-card"><div class="stat-card-top"><div><div class="stat-card-title">Tỷ lệ ký quỹ</div><div class="stat-card-value">${formatPct(rt.marginRatio)}</div></div></div>
+        <div class="gauge"><div class="gauge-track"><div class="gauge-marker" style="left:${gaugePos}%"></div></div><div class="gauge-labels"><span>-100%</span><span>100%</span></div></div></div>
+    </div>`;
+  } else {
+    c += `<div class="card"><p class="muted">Không tìm thấy dữ liệu NAV Real Time cho tài khoản này.</p></div>`;
+  }
+
+  const rows = holdingRows();
+  c += `<div class="dash-grid">
+    <div class="card"><div class="card-head"><div class="section-title" style="margin-bottom:0">Danh mục cổ phiếu đang nắm giữ</div><a class="link-more" href="#/history">Xem chi tiết &gt;</a></div>
+      ${rows.length ? holdingsPanel(rows) : `<p class="muted">Chưa có dữ liệu danh mục.</p>`}</div>
+    ${donutCard(rows)}
+  </div>`;
+  c += navCard(hist);
+  return { header, content: c };
+}
+
+function holdingsPanel(rows) {
+  const anyLive = rows.some((r) => r.live);
+  const totalMkt = rows.reduce((s, h) => s + (h.marketPrice || 0) * 1000 * (h.volume || 0), 0);
+  const totalPnl = rows.reduce((s, h) => s + (h.pnl || 0), 0);
+  const totalCost = totalMkt - totalPnl;
+  const totalPct = totalCost ? (totalPnl / Math.abs(totalCost)) * 100 : null;
+  const sorted = [...rows].sort((a, b) => sortKey === "code" ? sortDir * String(a.code).localeCompare(String(b.code)) : sortDir * ((a[sortKey] || 0) - (b[sortKey] || 0)));
+  const arrow = sortDir === -1 ? "↓" : "↑";
+  const hb = (k, t) => `<button type="button" class="head-sort${sortKey === k ? " active" : ""}" data-sort="${k}">${t}<span class="head-sort-arrow">${sortKey === k ? arrow : ""}</span></button>`;
+  const sign = (v) => (v >= 0 ? "+" : "−");
+  return `<div class="portfolio-summary">
+      <div class="portfolio-summary-item"><span class="portfolio-summary-label">Giá trị TT${anyLive ? '<span class="live-dot" title="Giá khớp lệnh trực tiếp (VPS/VNDirect)"></span>' : ""}</span><span class="portfolio-summary-value">${formatVND(totalMkt)}</span></div>
+      <div class="portfolio-summary-item right"><span class="portfolio-summary-label">Lãi/lỗ</span><span class="portfolio-summary-value ${pnlClass(totalPnl)}">${sign(totalPnl)}${formatVND(Math.abs(totalPnl))}${totalPct !== null ? ` (${totalPnl >= 0 ? "+" : ""}${totalPct.toFixed(2)}%)` : ""}</span></div>
+    </div>
+    <div class="holdings-list">
+      <div class="holding-row holding-row-head">
+        <div class="holding-col-left">${hb("code", "Mã")}${hb("volume", "KL")}</div>
+        <div class="holding-col-mid">${hb("marketPrice", "Giá TT")}${hb("buyPrice", "Giá vốn")}</div>
+        <div class="holding-col-right">${hb("pnl", "Lãi/lỗ")}${hb("pnlPct", "%")}</div>
+      </div>
+      ${sorted.map((h) => `<div class="holding-row">
+        <div class="holding-col-left"><div class="holding-code-line">${tickerLogo(h.code)}<span class="holding-code">${esc(h.code)}</span></div><div class="holding-sub">${nf.format(h.volume)}</div></div>
+        <div class="holding-col-mid"><div class="holding-main">${formatPrice(h.marketPrice)}</div><div class="holding-sub">${formatPrice(h.buyPrice)}</div></div>
+        <div class="holding-col-right"><div class="holding-main ${pnlClass(h.pnl)}">${sign(h.pnl)}${formatVND(Math.abs(h.pnl))}</div><div class="holding-sub-strong ${pnlClass(h.pnlPct)}">${h.pnlPct >= 0 ? "+" : ""}${formatPct(h.pnlPct)}</div></div>
+      </div>`).join("")}
+    </div>
+    <table class="holdings-table"><thead><tr>
+      <th>${hb("code", "Mã CP")}</th><th>${hb("buyPrice", "Giá vốn")}</th><th>${hb("marketPrice", "Giá thị trường")}</th><th>${hb("volume", "Khối lượng")}</th><th>${hb("pnl", "Lãi/Lỗ")}</th><th>${hb("pnlPct", "%")}</th>
+    </tr></thead><tbody>
+      ${sorted.map((h) => `<tr><td style="text-align:left;font-weight:600"><div class="holding-name-cell">${tickerLogo(h.code)}${esc(h.code)}</div></td>
+        <td>${formatPrice(h.buyPrice)}</td><td>${formatPrice(h.marketPrice)}</td><td>${nf.format(h.volume)}</td>
+        <td class="${pnlClass(h.pnl)}">${formatVND(h.pnl)}</td><td class="${pnlClass(h.pnlPct)}">${formatPct(h.pnlPct)}</td></tr>`).join("")}
+    </tbody></table>`;
+}
+
+const DONUT_COLORS = ["#15803d", "#22c55e", "#14b8a6", "#84cc16", "#5eead4", "#86efac", "#cde8d6"];
+function donutCard(rows) {
+  const pie = rows.map((h) => ({ name: h.code, value: Math.round((h.marketPrice || 0) * 1000 * (h.volume || 0)) })).filter((d) => d.value > 0).sort((a, b) => b.value - a.value);
+  const total = pie.reduce((s, d) => s + d.value, 0);
+  let body;
+  if (!pie.length) body = `<p class="muted">Chưa có dữ liệu danh mục.</p>`;
+  else {
+    const R = 74, C = 2 * Math.PI * R, gap = (C * 2.5) / 360;
+    let acc = 0;
+    const segs = pie.map((d, i) => {
+      const len = (d.value / total) * C;
+      const dash = Math.max(0.5, len - (pie.length > 1 ? gap : 0));
+      const s = `<circle cx="95" cy="95" r="${R}" fill="none" stroke="${DONUT_COLORS[i % DONUT_COLORS.length]}" stroke-width="28" stroke-dasharray="${dash} ${C - dash}" stroke-dashoffset="${-acc}" transform="rotate(-90 95 95)"><title>${esc(d.name)}: ${formatVND(d.value)} (${((d.value / total) * 100).toFixed(1)}%)</title></circle>`;
+      acc += len; return s;
+    }).join("");
+    body = `<div class="donut-wrap"><div class="donut-chart-area"><svg viewBox="0 0 190 190">${segs}</svg>
+      <div class="donut-center"><div class="donut-center-value">${formatCompact(total)}</div><div class="donut-center-label">Tổng danh mục</div></div></div>
+      <div class="donut-legend">${pie.map((d, i) => `<div class="legend-row"><div class="legend-left"><span class="legend-dot" style="background:${DONUT_COLORS[i % DONUT_COLORS.length]}"></span><span class="legend-name">${esc(d.name)}</span></div>
+        <div class="legend-right"><span class="legend-pct">${((d.value / total) * 100).toFixed(1)}%</span><span class="legend-value">${formatVND(d.value)}</span></div></div>`).join("")}</div></div>`;
+  }
+  return `<div class="card"><div class="chart-head"><span class="section-title" style="margin-bottom:0">Cơ cấu danh mục</span></div>${body}</div>`;
+}
+
+// ---------- Biểu đồ NAV ----------
+const RANGES = [{ k: "7d", l: "7N", d: 7 }, { k: "1m", l: "1T", d: 30 }, { k: "3m", l: "3T", d: 90 }, { k: "6m", l: "6T", d: 180 }, { k: "all", l: "Tất cả", d: null }];
+function rangePoints(hist) {
+  const r = RANGES.find((x) => x.k === navRange) || RANGES[1];
+  if (!r.d || !hist.length) return hist;
+  const cutoff = hist[hist.length - 1].t - r.d * 86400000;
+  return hist.filter((h) => h.t >= cutoff);
+}
+function navCard(hist) {
+  if (!hist.length) return `<div class="card"><div class="section-title">Biến động NAV</div><p class="muted">Chưa có dữ liệu để vẽ biểu đồ.</p></div>`;
+  const pts = rangePoints(hist);
+  const first = pts.length ? pts[0].nav : null, last = pts.length ? pts[pts.length - 1].nav : null;
+  const pct = first && last !== null ? ((last - first) / Math.abs(first)) * 100 : null;
+  const up = pct !== null && pct >= 0;
+  return `<div class="card"><div class="chart-head"><div class="chart-head-left"><span class="section-title" style="margin-bottom:0">Biến động NAV</span>
+    ${pct !== null ? `<span class="chart-chip ${up ? "up" : "down"}">${up ? "+" : ""}${pct.toFixed(1)}%</span>` : ""}</div>
+    <div class="range-tabs">${RANGES.map((r) => `<button type="button" class="range-tab${navRange === r.k ? " active" : ""}" data-range="${r.k}">${r.l}</button>`).join("")}</div></div>
+    <div class="chart-box" id="navbox"></div></div>`;
+}
+function drawNav() {
+  const box = $("navbox"); if (!box || !data) return;
+  const pts = rangePoints(data.history || []);
+  if (pts.length < 2) { box.innerHTML = `<p class="muted">Chưa đủ dữ liệu trong khoảng này.</p>`; return; }
+  const W = Math.max(260, box.clientWidth), H = 240, pl = 48, pr = 8, pt = 12, pb = 24;
+  const ys = pts.map((p) => p.nav);
+  let min = Math.min(...ys), max = Math.max(...ys);
+  if (min === max) { min -= 1; max += 1; }
+  const padv = (max - min) * 0.08; min -= padv; max += padv;
+  const X = (i) => pl + (i / (pts.length - 1)) * (W - pl - pr);
+  const Y = (v) => pt + (1 - (v - min) / (max - min)) * (H - pt - pb);
+  const line = pts.map((p, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(p.nav).toFixed(1)}`).join("");
+  const area = `${line}L${X(pts.length - 1).toFixed(1)},${H - pb}L${X(0).toFixed(1)},${H - pb}Z`;
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  const grid = dark ? "#263129" : "#f0f2f1", txt = "#9aa3a0";
+  let g = "";
+  for (let i = 0; i < 5; i++) {
+    const v = min + ((max - min) * i) / 4, y = Y(v);
+    g += `<line x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}" stroke="${grid}"/><text x="${pl - 6}" y="${y + 4}" text-anchor="end" font-size="11" fill="${txt}">${formatCompact(v)}</text>`;
+  }
+  const nx = Math.max(2, Math.min(6, Math.floor(W / 110)));
+  for (let k = 0; k < nx; k++) {
+    const i = Math.round((k * (pts.length - 1)) / (nx - 1)), anchor = k === 0 ? "start" : k === nx - 1 ? "end" : "middle";
+    g += `<text x="${X(i)}" y="${H - 6}" text-anchor="${anchor}" font-size="11" fill="${txt}">${esc(String(pts[i].d).slice(0, 5))}</text>`;
+  }
+  box.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <defs><linearGradient id="ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#16a34a" stop-opacity=".18"/><stop offset="100%" stop-color="#16a34a" stop-opacity="0"/></linearGradient></defs>
+    ${g}<path d="${area}" fill="url(#ng)"/><path d="${line}" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round"/>
+    <line id="nvl" y1="${pt}" y2="${H - pb}" stroke="#d1d5db" stroke-dasharray="4 4" style="display:none"/><circle id="nvd" r="4.5" fill="#16a34a" stroke="#fff" stroke-width="2" style="display:none"/></svg>
+    <div class="chart-tip hidden" id="nvt"></div>`;
+  const svg = box.querySelector("svg"), tip = $("nvt"), vl = $("nvl"), vd = $("nvd");
+  const move = (ev) => {
+    const r = svg.getBoundingClientRect(), cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    let i = Math.round(((cx - pl) / (W - pl - pr)) * (pts.length - 1));
+    i = Math.max(0, Math.min(pts.length - 1, i));
+    const x = X(i), y = Y(pts[i].nav);
+    vl.setAttribute("x1", x); vl.setAttribute("x2", x); vl.style.display = "";
+    vd.setAttribute("cx", x); vd.setAttribute("cy", y); vd.style.display = "";
+    tip.innerHTML = `<div class="chart-tip-label">${esc(String(pts[i].d).slice(0, 5))}</div><div class="chart-tip-value">${nf.format(Math.round(pts[i].nav))} đ</div>`;
+    tip.classList.remove("hidden");
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.max(0, Math.min(W - tw, x - tw / 2)) + "px"; tip.style.top = "0px";
+  };
+  const leave = () => { tip.classList.add("hidden"); vl.style.display = "none"; vd.style.display = "none"; };
+  svg.addEventListener("mousemove", move); svg.addEventListener("mouseleave", leave);
+  svg.addEventListener("touchmove", move, { passive: true }); svg.addEventListener("touchend", leave);
+}
+
+// ---------- Lịch sử giao dịch ----------
+const OH_COLS = [["code", "Mã CP"], ["buyDate", "Ngày mua"], ["buyPrice", "Giá mua"], ["volume", "KL mua"], ["totalBuy", "Tổng tiền mua"], ["status", "Trạng thái"], ["sellDate", "Ngày bán"], ["sellPrice", "Giá bán"], ["finalPnl", "Lãi/Lỗ deal"]];
+function ohValue(o, k) {
+  switch (k) {
+    case "code": return o.code || "";
+    case "buyDate": return o.buyT || -Infinity;
+    case "buyPrice": return o.buyPrice || 0;
+    case "volume": return o.volume || 0;
+    case "totalBuy": return o.totalBuy || 0;
+    case "status": return o.hasSold ? 1 : 0;
+    case "sellDate": { const d = parseVN(o.sellDate); return d ? d.getTime() : -Infinity; }
+    case "sellPrice": return o.sellPrice || 0;
+    case "finalPnl": return o.finalPnl || 0;
+    default: return 0;
+  }
+}
+function ohTable() {
+  const q = oh.search.trim().toLowerCase();
+  const from = oh.from ? new Date(oh.from).getTime() : null;
+  const to = oh.to ? new Date(oh.to).getTime() + 86399999 : null;
+  let list = (data.orders || []).filter((o) => {
+    if (q && !o.code.toLowerCase().includes(q)) return false;
+    if (oh.status === "holding" && o.hasSold) return false;
+    if (oh.status === "sold" && !o.hasSold) return false;
+    if (from !== null && (!o.buyT || o.buyT < from)) return false;
+    if (to !== null && (!o.buyT || o.buyT > to)) return false;
+    return true;
+  });
+  if (oh.key) {
+    list = [...list].sort((a, b) => {
+      const va = ohValue(a, oh.key), vb = ohValue(b, oh.key);
+      const c = typeof va === "string" || typeof vb === "string" ? String(va).localeCompare(String(vb)) : va - vb;
+      return oh.dir === "asc" ? c : -c;
+    });
+  }
+  if (!list.length) return `<p class="muted">Không tìm thấy lệnh phù hợp.</p>`;
+  return `<div class="history-wrap"><table><thead><tr>${OH_COLS.map(([k, l]) => `<th data-osort="${k}" style="cursor:pointer;user-select:none">${l}${oh.key === k ? (oh.dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("")}</tr></thead><tbody>
+    ${list.map((o) => `<tr><td style="text-align:left;font-weight:600">${esc(o.code)}</td><td>${esc(o.buyDate || "-")}</td><td>${formatVND(o.buyPrice)}</td><td>${nf.format(o.volume)}</td><td>${formatVND(o.totalBuy)}</td>
+      <td><span class="${o.hasSold ? "badge-sold" : "badge-holding"}">${o.hasSold ? "Đã bán" : "Đang giữ"}</span></td><td>${esc(o.sellDate || "-")}</td><td>${o.hasSold ? formatVND(o.sellPrice) : "-"}</td>
+      <td class="${o.finalPnl > 0 ? "positive" : o.finalPnl < 0 ? "negative" : ""}">${o.hasSold ? formatVND(o.finalPnl) : "-"}</td></tr>`).join("")}</tbody></table></div>`;
+}
+function pageHistory() {
+  const orders = data.orders || [];
+  const header = plainHeader("Lịch sử giao dịch", "Tra cứu các lệnh mua/bán của bạn", fmtUpdated(data.updatedAt));
+  const content = `<div class="card"><div class="section-title">Lịch sử lệnh</div>` + (!orders.length ? `<p class="muted">Chưa có lệnh giao dịch nào.</p>` :
+    `<div><div class="history-toolbar">
+      <input type="text" class="history-search" id="ohq" placeholder="Tìm theo mã cổ phiếu (VD: VPB, FPT...)" value="${esc(oh.search)}">
+      <select class="history-filter" id="ohs"><option value="all"${oh.status === "all" ? " selected" : ""}>Tất cả</option><option value="holding"${oh.status === "holding" ? " selected" : ""}>Đang giữ</option><option value="sold"${oh.status === "sold" ? " selected" : ""}>Đã bán</option></select>
+      <label class="history-date-label">Từ ngày<input type="date" class="history-filter" id="ohf" value="${esc(oh.from)}"></label>
+      <label class="history-date-label">Đến ngày<input type="date" class="history-filter" id="oht" value="${esc(oh.to)}"></label></div>
+      <div id="ohtable">${ohTable()}</div></div>`) + `</div>`;
+  return { header, content };
+}
+
+// ---------- Báo cáo ----------
+function fmtIso(iso) { if (!iso) return "-"; const [y, m, d] = iso.split("-"); return `${d}/${m}/${y}`; }
+function pageReports() {
+  const codes = (data.holdings || []).map((h) => h.code);
+  const six = new Date(); six.setMonth(six.getMonth() - 6);
+  const divs = DIVIDEND_EVENTS.filter((e) => codes.includes(e.code) && new Date(e.exDate) >= six).sort((a, b) => new Date(b.exDate) - new Date(a.exDate));
+  const header = plainHeader("Báo cáo", "Thông tin cổ tức các mã đang nắm giữ (6 tháng gần đây)", fmtUpdated(data.updatedAt));
+  let body;
+  if (!codes.length) body = `<p class="muted">Bạn hiện không nắm giữ mã cổ phiếu nào.</p>`;
+  else if (!divs.length) body = `<p class="muted">Không có thông tin cổ tức nào trong 6 tháng gần đây cho các mã bạn đang nắm giữ (${esc(codes.join(", "))}).</p>`;
+  else body = `<div class="history-wrap"><table><thead><tr><th>Mã CP</th><th>Loại cổ tức</th><th>Tỷ lệ</th><th>Ngày GDKHQ</th><th>Ngày thanh toán</th></tr></thead><tbody>
+    ${divs.map((e) => `<tr><td style="text-align:left;font-weight:600">${esc(e.code)}</td><td>${esc(e.type)}</td><td>${esc(e.ratio)}</td><td>${fmtIso(e.exDate)}</td><td>${e.payDate ? fmtIso(e.payDate) : "-"}</td></tr>`).join("")}</tbody></table></div>`;
+  const content = `<div class="card"><div class="section-title">Thông tin nhận cổ tức</div>${body}
+    <p class="muted" style="margin-top:12px;font-size:12px">Dữ liệu cổ tức được tổng hợp từ các nguồn báo tài chính (CafeF, Vietstock...) và có thể chưa đầy đủ hoặc cập nhật tức thời. Vui lòng đối chiếu với thông báo chính thức của doanh nghiệp/Sở giao dịch chứng khoán.</p></div>`;
+  return { header, content };
+}
+
+// ---------- Cài đặt ----------
+function pageSettings() {
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  const header = `<div class="main-header"><div><h1>Cài đặt</h1><div class="sub">Tùy chỉnh trải nghiệm sử dụng của bạn</div></div></div>`;
+  const content = `<div class="card"><div class="settings-section"><div class="settings-section-title">Giao diện</div><div class="settings-section-sub">Chọn giao diện sáng hoặc tối cho ứng dụng</div>
+    <div class="settings-options"><button type="button" class="theme-option-btn${dark ? "" : " active"}" data-theme-set="light">Giao diện sáng</button><button type="button" class="theme-option-btn${dark ? " active" : ""}" data-theme-set="dark">Giao diện tối</button></div></div></div>
+    <div class="card" style="margin-top:16px"><div class="settings-section"><div class="settings-section-title">Tài khoản</div><div class="settings-section-sub">Đăng xuất khỏi thiết bị này</div><button class="btn-logout" data-act="logout" style="max-width:240px">Đăng xuất</button></div></div>`;
+  return { header, content };
+}
+
+// ---------- Vẽ ----------
+function render(soft) {
+  if (!data || !session) return;
+  const r = route();
+  const page = r === "history" ? pageHistory() : r === "reports" ? pageReports() : r === "settings" ? pageSettings() : pageDashboard();
+  const root = $("app");
+  const sy = window.scrollY;
+  root.innerHTML = shell(ROUTES.some((x) => x.path === r) ? r : "", page.header, page.content);
+  if (soft) { $("mc").classList.add("noanim"); window.scrollTo(0, sy); }
+  if (r === "") drawNav();
+}
+
+// ---------- Sự kiện ----------
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-sort],[data-range],[data-osort],[data-theme-set],[data-act]");
+  if (!t) return;
+  if (t.dataset.sort) { const k = t.dataset.sort; if (k === sortKey) sortDir = -sortDir; else { sortKey = k; sortDir = k === "code" ? 1 : -1; } render(true); }
+  else if (t.dataset.range) { navRange = t.dataset.range; render(true); }
+  else if (t.dataset.osort) { const k = t.dataset.osort; if (oh.key === k) oh.dir = oh.dir === "asc" ? "desc" : "asc"; else { oh.key = k; oh.dir = "asc"; } $("ohtable").innerHTML = ohTable(); }
+  else if (t.dataset.themeSet) { const v = t.dataset.themeSet; try { localStorage.setItem("theme", v); } catch (x) {} if (v === "dark") document.documentElement.setAttribute("data-theme", "dark"); else document.documentElement.removeAttribute("data-theme"); render(true); }
+  else if (t.dataset.act === "logout") logout();
+});
+document.addEventListener("input", (e) => {
+  if (e.target.id === "ohq") { oh.search = e.target.value; $("ohtable").innerHTML = ohTable(); }
+  else if (e.target.id === "ohf") { oh.from = e.target.value; $("ohtable").innerHTML = ohTable(); }
+  else if (e.target.id === "oht") { oh.to = e.target.value; $("ohtable").innerHTML = ohTable(); }
+});
+document.addEventListener("change", (e) => { if (e.target.id === "ohs") { oh.status = e.target.value; $("ohtable").innerHTML = ohTable(); } });
+window.addEventListener("hashchange", () => { window.scrollTo(0, 0); render(false); });
+window.addEventListener("resize", () => { if (route() === "") drawNav(); });
 
 async function refresh() {
   if (!session || document.visibilityState !== "visible") return;
-  try { data = await load(session.file, session.key); render(); } catch (e) { /* giữ dữ liệu cũ */ }
+  try { data = await load(session.file, session.key); render(true); loadPrices(); } catch (e) { /* giữ dữ liệu cũ */ }
 }
-
 function start() {
   $("login").classList.add("hidden"); $("app").classList.remove("hidden");
-  render();
+  render(false); loadPrices();
   clearInterval(timer); timer = setInterval(refresh, REFRESH_MS);
+  clearInterval(priceTimer); priceTimer = setInterval(() => { if (document.visibilityState === "visible") loadPrices(); }, 15000);
 }
-
+function logout() {
+  sessionStorage.removeItem("kp"); session = null; data = null; livePrices = {};
+  clearInterval(timer); clearInterval(priceTimer);
+  location.hash = "";
+  $("app").classList.add("hidden"); $("app").innerHTML = ""; $("login").classList.remove("hidden");
+}
 async function restore() {
   try {
     const s = JSON.parse(sessionStorage.getItem("kp") || "null");
     if (!s) return;
     const key = await crypto.subtle.importKey("jwk", s.jwk, { name: "AES-GCM" }, false, ["decrypt"]);
-    session = { file: s.file, key };
+    session = { file: s.file, key, display: s.display || "" };
     data = await load(s.file, key);
     start();
   } catch (e) { sessionStorage.removeItem("kp"); session = null; }
 }
-
 $("form").addEventListener("submit", async (ev) => {
   ev.preventDefault();
-  $("err").textContent = ""; $("go").disabled = true; $("go").textContent = "Đang kiểm tra...";
+  const err = $("err"); err.classList.add("hidden");
+  $("go").disabled = true; $("go").textContent = "Đang đăng nhập...";
   try {
-    const user = $("u").value.trim().toLowerCase(), pass = $("p").value;
+    const raw = $("u").value.trim(), user = raw.toLowerCase(), pass = $("p").value;
     const key = await deriveKey(user, pass), file = await fileName(user);
     data = await load(file, key);
-    session = { file, key };
-    sessionStorage.setItem("kp", JSON.stringify({ file, jwk: await crypto.subtle.exportKey("jwk", key) }));
+    session = { file, key, display: raw };
+    sessionStorage.setItem("kp", JSON.stringify({ file, display: raw, jwk: await crypto.subtle.exportKey("jwk", key) }));
     $("p").value = "";
     start();
-  } catch (e) { $("err").textContent = "Sai tên đăng nhập hoặc mật khẩu."; }
+  } catch (e) { err.textContent = "Sai tên đăng nhập hoặc mật khẩu."; err.classList.remove("hidden"); }
   $("go").disabled = false; $("go").textContent = "Đăng nhập";
 });
-
-$("out").addEventListener("click", () => {
-  sessionStorage.removeItem("kp"); session = null; data = null; clearInterval(timer);
-  $("app").classList.add("hidden"); $("login").classList.remove("hidden");
-});
-
-document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
-  tab = b.dataset.t;
-  document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x === b));
-  $("ov").classList.toggle("hidden", tab !== "ov"); $("od").classList.toggle("hidden", tab !== "od");
-}));
-
-document.addEventListener("visibilitychange", refresh);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(); });
 restore();
 </script>
 </body>
