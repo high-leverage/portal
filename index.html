@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Leverage – Khách hàng</title>
+<style>
+:root{--g:#0a8f5a;--g2:#e8f6ef;--bg:#f4f7f6;--tx:#14201b;--mu:#6b7a73;--bd:#e1e8e4;--up:#0a8f5a;--dn:#d6374a}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+.hidden{display:none!important}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:28px;width:100%;max-width:380px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.box h1{margin:0 0 4px;font-size:22px;color:var(--g)}
+.box p{margin:0 0 18px;color:var(--mu);font-size:14px}
+label{display:block;font-size:13px;color:var(--mu);margin:12px 0 4px}
+input{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;font-size:16px}
+button{cursor:pointer;font:inherit}
+.btn{width:100%;margin-top:18px;padding:12px;border:0;border-radius:10px;background:var(--g);color:#fff;font-weight:600;font-size:16px}
+.btn:disabled{opacity:.6}
+.err{color:var(--dn);font-size:14px;margin-top:12px;min-height:18px}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+header b{color:var(--g)}
+header .sub{color:var(--mu);font-size:12px}
+.linkbtn{background:none;border:1px solid var(--bd);border-radius:8px;padding:6px 12px;color:var(--tx)}
+main{max-width:980px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{padding:8px 16px;border-radius:999px;border:1px solid var(--bd);background:#fff;color:var(--mu)}
+.tab.on{background:var(--g);color:#fff;border-color:var(--g)}
+.hero{background:linear-gradient(135deg,#0a8f5a,#0b6e48);color:#fff;border-radius:16px;padding:20px}
+.hero .l{opacity:.85;font-size:13px}
+.hero .v{font-size:32px;font-weight:700;margin:4px 0 14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 12px}
+.stat .l{font-size:12px;opacity:.85}.stat .v{font-size:17px;font-weight:600;margin:2px 0 0}
+.card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;margin-top:14px}
+.card h2{margin:0 0 10px;font-size:16px}
+.grid2{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-size:12px;color:var(--mu);font-weight:600;text-align:right;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
+td{text-align:right;padding:9px 6px;border-bottom:1px solid #f0f4f2;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+.up{color:var(--up)}.dn{color:var(--dn)}
+.tag{font-size:11px;background:#fde8ea;color:var(--dn);border-radius:6px;padding:1px 6px;margin-left:6px}
+.scroll{overflow-x:auto}
+.donut{width:170px;height:170px;border-radius:50%;margin:6px auto 12px}
+.leg{font-size:13px;display:flex;justify-content:space-between;padding:3px 0}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.muted{color:var(--mu);font-size:13px}
+</style>
+</head>
+<body>
+
+<div id="login" class="login">
+  <form class="box" id="form" autocomplete="on">
+    <h1>Leverage</h1>
+    <p>Đăng nhập để xem tài khoản của bạn</p>
+    <label for="u">Tên đăng nhập</label>
+    <input id="u" name="username" autocomplete="username" autocapitalize="none" required>
+    <label for="p">Mật khẩu</label>
+    <input id="p" name="password" type="password" autocomplete="current-password" required>
+    <button class="btn" id="go" type="submit">Đăng nhập</button>
+    <div class="err" id="err"></div>
+  </form>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div><b>Leverage</b> <span id="who"></span><div class="sub" id="upd"></div></div>
+    <button class="linkbtn" id="out">Đăng xuất</button>
+  </header>
+  <main>
+    <div class="tabs">
+      <button class="tab on" data-t="ov">Tổng quan</button>
+      <button class="tab" data-t="od">Lịch sử giao dịch</button>
+    </div>
+    <div id="ov"></div>
+    <div id="od" class="hidden"></div>
+  </main>
+</div>
+
+<script>
+const SITE_SALT = "kafi-portal-v1"; // phải giống scripts/build-data.mjs
+const ITERATIONS = 310000;
+const REFRESH_MS = 120000;
+const enc = new TextEncoder(), dec = new TextDecoder();
+const $ = (id) => document.getElementById(id);
+let session = null, timer = null, tab = "ov", data = null;
+
+const toHex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+async function sha256(t) { return new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode(t))); }
+
+async function fileName(user) { return toHex(await sha256(`${SITE_SALT}:file:${user}`)).slice(0, 32); }
+async function deriveKey(user, pass) {
+  const salt = await sha256(`${SITE_SALT}:salt:${user}`);
+  const base = await crypto.subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: ITERATIONS, hash: "SHA-256" }, base,
+    { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+}
+async function load(file, key) {
+  const res = await fetch(`data/${file}.json?t=${Date.now()}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("notfound");
+  const j = await res.json();
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(j.iv) }, key, fromB64(j.ct));
+  return JSON.parse(dec.decode(pt));
+}
+
+const vnd = (v) => new Intl.NumberFormat("vi-VN").format(Math.round(v || 0)) + " đ";
+const price = (v) => new Intl.NumberFormat("vi-VN").format(Math.round((v || 0) * 1000)) + " đ";
+const pct = (v) => (v >= 0 ? "+" : "") + (v || 0).toFixed(2) + "%";
+const cls = (v) => (v >= 0 ? "up" : "dn");
+const num = (v) => new Intl.NumberFormat("vi-VN").format(v || 0);
+
+function render() {
+  if (!data) return;
+  $("who").textContent = "· " + data.name;
+  $("upd").textContent = "Cập nhật " + new Date(data.updatedAt).toLocaleString("vi-VN");
+  renderOverview(); renderOrders();
+}
+
+function renderOverview() {
+  const rt = data.realtime;
+  const h = data.holdings || [];
+  const totMkt = h.reduce((s, x) => s + x.marketPrice * 1000 * x.volume, 0);
+  const totPnl = h.reduce((s, x) => s + x.pnl, 0);
+  const totCost = totMkt - totPnl;
+  const totPct = totCost ? (totPnl / Math.abs(totCost)) * 100 : 0;
+  let html = "";
+  if (rt) {
+    html += `<section class="hero"><div class="l">Tài sản ròng (NAV)</div><div class="v">${vnd(rt.nav)}</div>
+    <div class="stats">
+      <div class="stat"><div class="l">Giá trị danh mục</div><div class="v">${vnd(rt.portfolioValue)}</div></div>
+      <div class="stat"><div class="l">Dư nợ</div><div class="v">${vnd(rt.debt)}</div></div>
+      <div class="stat"><div class="l">Tỷ lệ ký quỹ</div><div class="v">${(rt.marginRatio || 0).toFixed(2)}%</div></div>
+      <div class="stat"><div class="l">Vốn nộp</div><div class="v">${vnd(data.totalCapital)}</div></div>
+    </div></section>`;
+  } else html += `<div class="card muted">Không tìm thấy dữ liệu NAV cho tài khoản này.</div>`;
+
+  html += `<div class="grid2"><div class="card"><h2>Danh mục đang nắm giữ</h2>`;
+  if (!h.length) html += `<div class="muted">Chưa có cổ phiếu.</div>`;
+  else {
+    const rows = [...h].sort((a, b) => b.marketPrice * b.volume - a.marketPrice * a.volume);
+    html += `<div class="scroll"><table><thead><tr><th>Mã</th><th>Giá vốn</th><th>Giá TT</th><th>KL</th><th>Lãi/lỗ</th><th>%</th></tr></thead><tbody>` +
+      rows.map((x) => `<tr><td><b>${x.code}</b>${x.short ? '<span class="tag">Short</span>' : ""}</td><td>${price(x.buyPrice)}</td><td>${price(x.marketPrice)}</td><td>${num(x.volume)}</td><td class="${cls(x.pnl)}">${vnd(x.pnl)}</td><td class="${cls(x.pnlPct)}">${pct(x.pnlPct)}</td></tr>`).join("") +
+      `<tr><td><b>Tổng</b></td><td></td><td>${vnd(totMkt)}</td><td></td><td class="${cls(totPnl)}"><b>${vnd(totPnl)}</b></td><td class="${cls(totPct)}"><b>${pct(totPct)}</b></td></tr></tbody></table></div>`;
+  }
+  html += `</div><div class="card"><h2>Cơ cấu danh mục</h2>${donut(h, totMkt)}</div></div>`;
+  html += `<div class="card"><h2>Diễn biến NAV</h2>${navChart(data.history || [])}</div>`;
+  $("ov").innerHTML = html;
+}
+
+const COLORS = ["#0a8f5a", "#2fb27f", "#7fd1ac", "#0b6e48", "#f2b134", "#5b8def", "#9b6bd6", "#d6374a"];
+function donut(h, tot) {
+  if (!h.length || !tot) return `<div class="muted">Chưa có dữ liệu.</div>`;
+  let acc = 0, stops = [], leg = "";
+  [...h].sort((a, b) => b.marketPrice * b.volume - a.marketPrice * a.volume).forEach((x, i) => {
+    const w = (x.marketPrice * 1000 * x.volume) / tot * 100, c = COLORS[i % COLORS.length];
+    stops.push(`${c} ${acc}% ${acc + w}%`); acc += w;
+    leg += `<div class="leg"><span><i style="background:${c}"></i>${x.code}</span><span>${w.toFixed(1)}%</span></div>`;
+  });
+  return `<div class="donut" style="background:conic-gradient(${stops.join(",")})"></div>${leg}`;
+}
+
+function navChart(hist) {
+  const pts = hist.slice(-120);
+  if (pts.length < 2) return `<div class="muted">Chưa đủ dữ liệu lịch sử.</div>`;
+  const W = 640, H = 200, P = 8;
+  const ys = pts.map((p) => p.nav), min = Math.min(...ys), max = Math.max(...ys), span = max - min || 1;
+  const xy = pts.map((p, i) => [P + (i / (pts.length - 1)) * (W - 2 * P), H - P - ((p.nav - min) / span) * (H - 2 * P)]);
+  const line = xy.map((p) => p.join(",")).join(" ");
+  const area = `${P},${H - P} ${line} ${W - P},${H - P}`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img"><polygon points="${area}" fill="#0a8f5a22"/><polyline points="${line}" fill="none" stroke="#0a8f5a" stroke-width="2"/></svg>
+  <div class="leg"><span class="muted">${pts[0].d}: ${vnd(pts[0].nav)}</span><span class="muted">${pts[pts.length - 1].d}: ${vnd(pts[pts.length - 1].nav)}</span></div>`;
+}
+
+function renderOrders() {
+  const o = data.orders || [];
+  if (!o.length) { $("od").innerHTML = `<div class="card muted">Chưa có giao dịch.</div>`; return; }
+  $("od").innerHTML = `<div class="card"><h2>Lịch sử giao dịch (${o.length})</h2><div class="scroll"><table><thead><tr><th>Mã</th><th>Ngày mua</th><th>Giá mua</th><th>KL</th><th>Tổng mua</th><th>Ngày bán</th><th>Giá bán</th><th>Lãi/lỗ</th><th>Trạng thái</th></tr></thead><tbody>` +
+    o.map((x) => `<tr><td><b>${x.code}</b></td><td>${x.buyDate}</td><td>${num(x.buyPrice)}</td><td>${num(x.volume)}</td><td>${num(x.totalBuy)}</td><td>${x.sellDate || "–"}</td><td>${x.hasSold ? num(x.sellPrice) : "–"}</td><td class="${cls(x.finalPnl)}">${num(x.finalPnl)}</td><td>${x.status}</td></tr>`).join("") +
+    `</tbody></table></div></div>`;
+}
+
+async function refresh() {
+  if (!session || document.visibilityState !== "visible") return;
+  try { data = await load(session.file, session.key); render(); } catch (e) { /* giữ dữ liệu cũ */ }
+}
+
+function start() {
+  $("login").classList.add("hidden"); $("app").classList.remove("hidden");
+  render();
+  clearInterval(timer); timer = setInterval(refresh, REFRESH_MS);
+}
+
+async function restore() {
+  try {
+    const s = JSON.parse(sessionStorage.getItem("kp") || "null");
+    if (!s) return;
+    const key = await crypto.subtle.importKey("jwk", s.jwk, { name: "AES-GCM" }, false, ["decrypt"]);
+    session = { file: s.file, key };
+    data = await load(s.file, key);
+    start();
+  } catch (e) { sessionStorage.removeItem("kp"); session = null; }
+}
+
+$("form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  $("err").textContent = ""; $("go").disabled = true; $("go").textContent = "Đang kiểm tra...";
+  try {
+    const user = $("u").value.trim().toLowerCase(), pass = $("p").value;
+    const key = await deriveKey(user, pass), file = await fileName(user);
+    data = await load(file, key);
+    session = { file, key };
+    sessionStorage.setItem("kp", JSON.stringify({ file, jwk: await crypto.subtle.exportKey("jwk", key) }));
+    $("p").value = "";
+    start();
+  } catch (e) { $("err").textContent = "Sai tên đăng nhập hoặc mật khẩu."; }
+  $("go").disabled = false; $("go").textContent = "Đăng nhập";
+});
+
+$("out").addEventListener("click", () => {
+  sessionStorage.removeItem("kp"); session = null; data = null; clearInterval(timer);
+  $("app").classList.add("hidden"); $("login").classList.remove("hidden");
+});
+
+document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
+  tab = b.dataset.t;
+  document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x === b));
+  $("ov").classList.toggle("hidden", tab !== "ov"); $("od").classList.toggle("hidden", tab !== "od");
+}));
+
+document.addEventListener("visibilitychange", refresh);
+restore();
+</script>
+</body>
+</html>
