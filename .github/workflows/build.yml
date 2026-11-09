@@ -29,6 +29,12 @@ jobs:
         with:
           node-version: 20
       - run: npm install --no-audit --no-fund
+      - name: Khôi phục cache cổ tức
+        uses: actions/cache@v4
+        with:
+          path: cache
+          key: dividends-${{ github.run_id }}
+          restore-keys: dividends-
       - name: Đọc Google Sheet và mã hóa dữ liệu từng khách
         run: node build-data.mjs
         env:
