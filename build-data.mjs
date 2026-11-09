@@ -92,8 +92,9 @@ function parseDividendHtml(html, dateStr) {
     seen.add(slug);
     const code = slug.split("-")[0].toUpperCase();
     const before = text.split(/Rate/)[0];
-    const type = /\bCash\b/.test(before) ? "Tiền mặt" : /\b(Stock|Bonus|Share)/.test(before) ? "Cổ phiếu" : "Khác";
     const rate = (text.match(/Rate\s+([^\s]+)/) || [])[1] || "";
+    const isStockRatio = rate.includes(":");
+    const type = /\bCash\b/.test(before) ? "Tiền mặt" : /\b(Stock|Bonus|Share)/.test(before) || isStockRatio ? "Cổ phiếu" : "Khác";
     const amt = (before.match(/\+?([\d,]+)\s*VND\/share/) || [])[1];
     const ratio = type === "Tiền mặt" && amt ? `${rate} (${Number(amt.replace(/,/g, "")).toLocaleString("vi-VN")}đ/CP)` : rate;
     const pay = text.match(/Payment\s+(\d{2})\/(\d{2})\/(\d{4})/);
