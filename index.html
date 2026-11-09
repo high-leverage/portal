@@ -671,7 +671,8 @@ function fmtIso(iso) { if (!iso) return "-"; const [y, m, d] = iso.split("-"); r
 function pageReports() {
   const codes = (data.holdings || []).map((h) => h.code);
   const six = new Date(); six.setMonth(six.getMonth() - 6);
-  const divs = DIVIDEND_EVENTS.filter((e) => codes.includes(e.code) && new Date(e.exDate) >= six).sort((a, b) => new Date(b.exDate) - new Date(a.exDate));
+  const src = Array.isArray(data.dividends) ? data.dividends : DIVIDEND_EVENTS;
+  const divs = src.filter((e) => codes.includes(e.code) && new Date(e.exDate) >= six).sort((a, b) => new Date(b.exDate) - new Date(a.exDate));
   const header = plainHeader("Báo cáo", "Thông tin cổ tức các mã đang nắm giữ (6 tháng gần đây)", fmtUpdated(data.updatedAt));
   let body;
   if (!codes.length) body = `<p class="muted">Bạn hiện không nắm giữ mã cổ phiếu nào.</p>`;

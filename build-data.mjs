@@ -75,6 +75,71 @@ async function getValues(sheets, range) {
   return res.data.values || [];
 }
 
+// ---------- Cổ tức: đọc từ cotuc.vn (chỉ đọc), lưu cache giữa các lần chạy ----------
+const WATCH_CODES = ["MWG", "SHS", "MSN", "VIB", "VPB", "MSB", "NLG", "KDH", "FPT", "MBB", "VNM", "VCB", "VIX", "CMG", "MBS", "TPB", "STB", "LPB", "NAB", "DGW", "CTS", "ORS", "BID", "HDB"];
+const DIV_CACHE = path.join("cache", "dividends.json");
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+function parseDividendHtml(html, dateStr) {
+  const out = [];
+  const seen = new Set();
+  const re = new RegExp(`<a[^>]+href="/en/events/${dateStr}/([^"]+)"[^>]*>([\\s\\S]*?)</a>`, "g");
+  let m;
+  while ((m = re.exec(html))) {
+    const slug = m[1];
+    const text = m[2].replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+    if (!/Rate/.test(text) || seen.has(slug)) continue;
+    seen.add(slug);
+    const code = slug.split("-")[0].toUpperCase();
+    const before = text.split(/Rate/)[0];
+    const type = /\bCash\b/.test(before) ? "Tiền mặt" : /\b(Stock|Bonus|Share)/.test(before) ? "Cổ phiếu" : "Khác";
+    const rate = (text.match(/Rate\s+([^\s]+)/) || [])[1] || "";
+    const amt = (before.match(/\+?([\d,]+)\s*VND\/share/) || [])[1];
+    const ratio = type === "Tiền mặt" && amt ? `${rate} (${Number(amt.replace(/,/g, "")).toLocaleString("vi-VN")}đ/CP)` : rate;
+    const pay = text.match(/Payment\s+(\d{2})\/(\d{2})\/(\d{4})/);
+    out.push({ code, type, ratio, exDate: dateStr, payDate: pay ? `${pay[3]}-${pay[1]}-${pay[2]}` : null });
+  }
+  return out;
+}
+
+async function fetchDividends(codes) {
+  let store = { fetched: {}, events: {} }; // events: { "YYYY-MM-DD": [...] }
+  try { store = JSON.parse(fs.readFileSync(DIV_CACHE, "utf8")); } catch (e) { /* chưa có cache */ }
+  const vnNow = new Date(Date.now() + 7 * 3600 * 1000);
+  const today = Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate());
+  const isFriday = vnNow.getUTCDay() === 5;
+  const refresh = process.env.GITHUB_EVENT_NAME !== "schedule" || isFriday || Object.keys(store.fetched).length === 0;
+  const days = [];
+  for (let off = -185; off <= 28; off++) {
+    const t = today + off * 86400000;
+    const dow = new Date(t).getUTCDay();
+    if (dow === 0 || dow === 6) continue;
+    const ds = new Date(t).toISOString().slice(0, 10);
+    const recent = off >= -3; // ngày gần/tương lai: tải lại khi refresh
+    if (store.fetched[ds] && !(refresh && recent)) continue;
+    if (!store.fetched[ds] || refresh) days.push(ds);
+  }
+  let okCount = 0, failCount = 0;
+  for (let i = 0; i < days.length; i += 6) {
+    await Promise.all(days.slice(i, i + 6).map(async (ds) => {
+      try {
+        const res = await fetch(`https://cotuc.vn/en/events/${ds}`, { headers: { "User-Agent": "Mozilla/5.0 (compatible; LeveragePortal/1.0)" } });
+        if (!res.ok) { failCount++; return; }
+        store.events[ds] = parseDividendHtml(await res.text(), ds);
+        store.fetched[ds] = true;
+        okCount++;
+      } catch (e) { failCount++; }
+    }));
+    await sleep(200);
+  }
+  console.log(`Cổ tức: tải ${okCount} ngày, lỗi ${failCount} ngày`);
+  fs.mkdirSync("cache", { recursive: true });
+  fs.writeFileSync(DIV_CACHE, JSON.stringify(store));
+  if (Object.keys(store.fetched).length === 0) return null; // không có dữ liệu -> web dùng danh sách dự phòng
+  const all = Object.values(store.events).flat();
+  return all.filter((e) => codes.has(e.code));
+}
+
 function parseAccounts() {
   const raw = process.env.PORTAL_ACCOUNTS || "";
   const accounts = [];
@@ -114,9 +179,18 @@ async function main() {
   const updatedAt = new Date().toISOString();
   let ok = 0;
 
+  // Gộp mã của mọi khách + danh sách theo dõi rồi lấy cổ tức 1 lần
+  const allCodes = new Set(WATCH_CODES);
+  for (const acc of accounts) {
+    try { parseKeyInHoldingsDesign(keyInRows, acc.dataName, priceMap).forEach((h) => allCodes.add(String(h.code).toUpperCase())); } catch (e) { /* bỏ qua */ }
+  }
+  let dividends = null;
+  try { dividends = await fetchDividends(allCodes); } catch (e) { console.error("Không lấy được cổ tức:", e.message); }
+
   for (const acc of accounts) {
     try {
       const payload = {
+        dividends,
         updatedAt,
         name: acc.dataName,
         realtime: findNavRealtimeRow(realtimeRows, acc.dataName),
